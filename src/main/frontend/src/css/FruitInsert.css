@@ -1,0 +1,25 @@
+.writeFormDiv {
+    display: flow-root;
+}
+
+.writeFormDiv button {
+    width: 15%;
+    height: 50px;
+    float: right;
+    margin-right: 30px;
+}
+
+.writeDiv {
+    display: flex;
+    align-items: center;
+}
+
+.writeDiv h4 {
+    margin-left: 30px;
+    width: 15%;
+}
+
+.writeDiv input, .writeDiv img {
+    margin: 10px 30px;
+    flex-grow: 1;
+}

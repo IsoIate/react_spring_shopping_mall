@@ -1,0 +1,70 @@
+body {
+    height: 100%;
+}
+
+.mainDiv {
+    background: white;
+}
+
+.main_banner {
+    width: 90vw;
+}
+
+.main_banner img {
+    width: 100%;
+    height: 300px;
+    margin: 0 5vw;
+}
+
+.bestDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bestTab {
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+}
+
+.bestTab ul {
+    padding: 0;
+}
+
+.bestTab li {
+    list-style: none;
+    display: inline-block;
+    margin: 0 0.5rem;
+}
+
+.bestTab li:nth-child(even) {
+    color: gray;
+}
+
+.bestInnerDiv {
+    display: flex;
+    justify-content: space-between;
+    width: 90vw;
+}
+
+.bestInnerDiv img {
+    width: 100%;
+    height: 50%;
+}
+
+.fruitInfo {
+    cursor: pointer;
+}
+
+.fruitInfo:first-child {
+    margin-right: 1rem !important;
+}
+
+.fruitInfo:last-child {
+    margin-left: 1rem !important;;
+}
+
+.fruitInfo:not(:first-child, :last-child) {
+    margin: 0 1rem;
+}

@@ -1,13 +1,10 @@
-import React, {useEffect, useState} from 'react'
-import './App.css'
-import axios from "axios";
+import React from 'react'
+import './css/App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Form from 'react-bootstrap/Form';
-import {Button, Image} from "react-bootstrap";
-// import Navbar from "react-bootstrap/Navbar";
-import Navbar from "./Navbar.jsx";
-import main_banner from "../public/main_banner.png"
-
+import {Route, Routes} from "react-router-dom";
+import  MainPage from "./pages/MainPage.jsx"
+import Detail from "./pages/Detail.jsx"
+import FruitInsert from "./pages/FruitInsert.jsx";
 function App() {
     // const [data, setData] = useState('');
     // useEffect(() => {
@@ -18,10 +15,13 @@ function App() {
 
     return (
         <>
-            <Navbar></Navbar>
-            <div className={"main_banner"}>
-                <Image src={main_banner} ></Image>
-            </div>
+            <Routes>
+                <Route path={"/"} element={ <MainPage></MainPage>} />
+                <Route path={"/detail"} element={ <Detail></Detail> } />
+                <Route path={"/detail/:id"} element={ <Detail></Detail> } />
+                <Route path={"/fruitInsert"} element={ <FruitInsert></FruitInsert> } />
+                <Route path={"*"} element={ <div> 없는 페이지입니다. </div>}/>
+            </Routes>
         </>
     );
 }

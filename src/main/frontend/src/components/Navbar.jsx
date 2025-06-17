@@ -1,10 +1,10 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import './Navbar.css';
+import '../css/Navbar.css';
 import Form from "react-bootstrap/Form";
 import {Button, Col, Image, Row} from "react-bootstrap";
-import main_banner from '../public/main_banner_2.png';
+import main_banner from '../assets/main_banner_2.png';
 
 function navbar() {
 
@@ -12,8 +12,10 @@ function navbar() {
         <>
             <Navbar bg="dark" data-bs-theme="dark">
                 <Container className={"custom_mw"}>
-                    <Navbar.Brand href="#home">달콤청과</Navbar.Brand>
+                    <Navbar.Brand href="/">달콤청과</Navbar.Brand>
                     <Nav className="me-auto user-nav">
+                        <Nav.Link href="/fruitInsert">과일 등록</Nav.Link>
+                        <Nav.Link href="/detail">과일 조회</Nav.Link>
                         <Nav.Link href="#pricing">아이디</Nav.Link>
                         <Nav.Link href="#pricing">장바구니</Nav.Link>
                         <Nav.Link href="#home">로그인</Nav.Link>
@@ -23,7 +25,7 @@ function navbar() {
                 </Container>
                 <Container className={"custom_mw mt-2 mb-1"}>
                     <h4> 123 마트 </h4>
-                    <Form inline>
+                    <Form>
                         <Row>
                             <Col xs="auto">
                                 <Form.Control
