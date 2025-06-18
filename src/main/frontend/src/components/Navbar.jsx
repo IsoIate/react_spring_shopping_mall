@@ -15,7 +15,7 @@ function navbar() {
                     <Navbar.Brand href="/">달콤청과</Navbar.Brand>
                     <Nav className="me-auto user-nav">
                         <Nav.Link href="/fruitInsert">과일 등록</Nav.Link>
-                        <Nav.Link href="/detail">과일 조회</Nav.Link>
+                        <Nav.Link href="/test">과일 조회</Nav.Link>
                         <Nav.Link href="#pricing">아이디</Nav.Link>
                         <Nav.Link href="#pricing">장바구니</Nav.Link>
                         <Nav.Link href="#home">로그인</Nav.Link>
