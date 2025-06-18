@@ -45,6 +45,13 @@ public class FruitController {
         return ResponseEntity.ok(fruitService.selectFruitList());
     }
 
+    @GetMapping("/detail/{id}")
+    @ResponseBody
+    public ResponseEntity fruitDetailData (@PathVariable Integer id, Model model) {
+        model.addAttribute("fruitData", fruitService.selectFruitDetail(id));
+        return ResponseEntity.ok(fruitService.selectFruitDetail(id));
+    }
+
     @PostMapping("/fruitInsert")
     public ResponseEntity fruitInsert (Fruit fruit, @RequestBody Map<String, String> data){
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +15,12 @@ public class FruitService {
 
     public List<Fruit> selectFruitList () {
         List<Fruit> result = fruitRepository.findAll();
+
+        return result;
+    }
+
+    public Optional<Fruit> selectFruitDetail (Integer id) {
+        Optional<Fruit> result = fruitRepository.findById(id);
 
         return result;
     }
