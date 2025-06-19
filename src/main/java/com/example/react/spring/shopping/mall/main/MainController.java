@@ -21,20 +21,4 @@ public class MainController {
         return "/frontend/src/index.html";
     }
 
-    @GetMapping("/api/temp")
-    public String temp (Model model) {
-
-        System.out.println("555");
-        model.addAttribute("data", "123");
-
-        return "hello";
-    }
-
-    @GetMapping("/temp")
-    public String temp2 () {
-
-        System.out.println("555");
-
-        return "hello";
-    }
 }

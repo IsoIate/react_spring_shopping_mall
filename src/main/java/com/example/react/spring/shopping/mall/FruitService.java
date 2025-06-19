@@ -27,9 +27,11 @@ public class FruitService {
 
     public void fruitInsert(Fruit fruit, Map<String, String> data) {
 
-        fruit.setFruitName(data.get("fruitName"));
+        fruit.setFruitName(data.get("title"));
         fruit.setPrice(Integer.valueOf(data.get("price")));
         fruit.setQuantity(Integer.valueOf(data.get("quantity")));
+        fruit.setInfo(data.get("info"));
+        fruit.setDetailInfo(data.get("detailInfo"));
         fruit.setFruitImage(data.get("imgUrl"));
 
         fruitRepository.save(fruit);

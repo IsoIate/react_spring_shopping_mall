@@ -17,6 +17,9 @@ public class Fruit {
     private String fruitName;
     private Integer price;
     private Integer quantity;
+    private String info;
+    @Column(columnDefinition = "TEXT")
+    private String detailInfo;
     @Column(columnDefinition = "TEXT")
     private String fruitImage;
 }

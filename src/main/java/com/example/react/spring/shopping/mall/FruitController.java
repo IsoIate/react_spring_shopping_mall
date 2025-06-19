@@ -26,8 +26,6 @@ public class FruitController {
 //    public String getURL (@RequestParam String filename) {
     public ResponseEntity<Map<String, String>> getPresignedUrls(@RequestParam String filename) {
 
-        System.out.println("sdf");
-
         String encodedName = URLDecoder.decode(filename, StandardCharsets.UTF_8);
         String putUrl = s3Service.createPresignedPutUrl(encodedName);
         String getUrl = s3Service.createPresignedGetUrl(encodedName);
