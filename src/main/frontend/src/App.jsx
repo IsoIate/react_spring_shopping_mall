@@ -6,6 +6,7 @@ import  MainPage from "./pages/MainPage.jsx"
 import Test from "./pages/Test.jsx"
 import Detail from "./pages/Detail.jsx";
 import FruitInsert from "./pages/FruitInsert.jsx";
+import Test2 from "./pages/Test2.jsx";
 function App() {
     // const [data, setData] = useState('');
     // useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
             <Routes>
                 <Route path={"/"} element={ <MainPage></MainPage>} />
                 <Route path={"/test"} element={ <Test></Test> } />
+                <Route path={"/test2"} element={ <Test2></Test2> } />
                 <Route path={"/detail/:id"} element={ <Detail></Detail> } />
                 <Route path={"/fruitInsert"} element={ <FruitInsert></FruitInsert> } />
                 <Route path={"*"} element={ <div> 없는 페이지입니다. </div>}/>

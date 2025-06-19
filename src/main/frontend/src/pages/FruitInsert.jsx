@@ -1,15 +1,17 @@
 import "../css/FruitInsert.css"
 import axios from "axios";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import localUrl from "../js/common.js";
 import {useNavigate} from "react-router-dom";
+import {Button, Container, Form, Image} from "react-bootstrap";
+import Navbar from "../components/Navbar.jsx";
 
 function FruitInsert() {
 
     let [title, setTitle] = useState('');
     let [price, setPrice] = useState('');
     let [quantity, setQuantity] = useState('');
-    let [imgUrl, setImgUrl] = useState('');
+    let [imgUrl, setImgUrl] = useState(null);
     let navigate = useNavigate();
 
     function formSubmit() {
@@ -60,46 +62,168 @@ function FruitInsert() {
 
         if (res.ok) {
             getUrl = getUrl.split("?")[0];
-            document.querySelector("img").src = getUrl;
+            // document.querySelector("img").src = getUrl;
             setImgUrl(getUrl);
+            setForm({...form, "imgUrl":imgUrl})
         }
     }
 
-    return (<>
-        <div>
-            <form action="/fruitInsert" method="POST">
-                <div className="writeFormDiv">
-                    <div className="writeDiv">
-                        <h4> 과일 이름 </h4>
-                        <input type="text" name="fruitName" onChange={(e) => {setTitle(e.target.value)}}/>
+
+
+
+    const [form, setForm] = useState({
+        title: '',
+        price: 0,
+        quantity: 0,
+        info: '',
+        detailInfo: ''
+    });
+
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e) => {
+        const totalForm = {...form, "imgUrl" : imgUrl};
+
+        if (!confirm("상품을 등록하시겠습니까?")) return false;
+
+        axios.post("/api/fruitInsert", totalForm, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => {
+                console.log("업로드 완료:", res)
+                navigate("/")
+            })
+            .catch((err) => console.error("에러 발생:", err));
+    };
+
+    return (
+        <>
+            <Navbar></Navbar>   {/*관리자 nav로 변경 필요*/}
+            <Container className="py-5" style={{ maxWidth: '600px' }}>
+                <h3 className="mb-4 text-center"> 상품 등록 </h3>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId="formTitle">
+                        <Form.Label> 상품명 </Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="상품명을 입력하세요"
+                            name="title"
+                            value={form.title}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formPrice">
+                        <Form.Label> 가격 </Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="가격을 입력하세요"
+                            name="price"
+                            value={form.price}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formQuantity">
+                        <Form.Label> 수량 </Form.Label>
+                        <Form.Control
+                            type="number"
+                            placeholder="수량을 입력하세요"
+                            name="quantity"
+                            value={form.quantity}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formInfo">
+                        <Form.Label> 상품 정보 </Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="간단한 상품 정보를 입력하세요"
+                            name="info"
+                            value={form.info}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-4" controlId="formDetailInfo">
+                        <Form.Label> 상품 정보 상세 </Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            rows={4}
+                            name="detailInfo"
+                            placeholder="상세 내용을 입력하세요"
+                            value={form.detailInfo}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-4" controlId="formImage">
+                        <Form.Label> 상품 이미지 </Form.Label>
+                        <Form.Control
+                            type="file"
+                            onChange={(e) => {getURL(e)}}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-4" controlId="formImageView">
+                        <Form.Label> 이미지 미리보기 </Form.Label>
+                        <Image className="w-100 imageView" src={imgUrl}/>
+                    </Form.Group>
+
+                    <div className="d-grid">
+                        <Button variant="primary" size="lg" type="submit">
+                            제출하기
+                        </Button>
                     </div>
-                    <div className="writeDiv">
-                        <h4> 가격 </h4>
-                        <input type="text" name="price" value={price} onChange={(e) => {inputNumber(e, "price")}}/>
-                    </div>
-                    <div className="writeDiv">
-                        <h4> 과일 갯수 </h4>
-                        <input type="text" name="quantity" value={quantity} onChange={(e) => {inputNumber(e, "qy")}}/>
-                    </div>
-                    <input type="hidden" name="imageURL" id="imageURL"/>
-                    <div className="writeDiv">
-                        <h4> 과일 이미지 </h4>
-                        <input type="file" onChange={(e) => {
-                            getURL(e)
-                        }}/>
-                    </div>
-                    <div className="writeDiv">
-                        <h4> 과일 이미지 미리보기 </h4>
-                        <img style={{width: "60%"}}/>
-                    </div>
-                    <button type="button" onClick={() => {
-                        formSubmit();
-                    }}> 전송
-                    </button>
-                </div>
-            </form>
-        </div>
-    </>)
+                </Form>
+            </Container>
+        </>
+    //     <>
+    //     <div>
+    //         <form action="/fruitInsert" method="POST">
+    //             <div className="writeFormDiv">
+    //                 <div className="writeDiv">
+    //                     <h4> 과일 이름 </h4>
+    //                     <input type="text" name="fruitName" onChange={(e) => {setTitle(e.target.value)}}/>
+    //                 </div>
+    //                 <div className="writeDiv">
+    //                     <h4> 가격 </h4>
+    //                     <input type="text" name="price" value={price} onChange={(e) => {inputNumber(e, "price")}}/>
+    //                 </div>
+    //                 <div className="writeDiv">
+    //                     <h4> 과일 갯수 </h4>
+    //                     <input type="text" name="quantity" value={quantity} onChange={(e) => {inputNumber(e, "qy")}}/>
+    //                 </div>
+    //                 <input type="hidden" name="imageURL" id="imageURL"/>
+    //                 <div className="writeDiv">
+    //                     <h4> 과일 이미지 </h4>
+    //                     <input type="file" onChange={(e) => {
+    //                         getURL(e)
+    //                     }}/>
+    //                 </div>
+    //                 <div className="writeDiv">
+    //                     <h4> 과일 이미지 미리보기 </h4>
+    //                     <img style={{width: "60%"}}/>
+    //                 </div>
+    //                 <button type="button" onClick={() => {
+    //                     formSubmit();
+    //                 }}> 전송
+    //                 </button>
+    //             </div>
+    //         </form>
+    //     </div>
+    // </>
+    )
 }
 
 export default FruitInsert
