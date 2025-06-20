@@ -1,17 +1,20 @@
-import {Outlet, useNavigate} from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
-import {Image} from "react-bootstrap";
+import { Image, Button } from "react-bootstrap";
 import main_banner from "../assets/main_banner.png";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { updateOrder } from "../store.js"
 
 function Test() {
 
     let navigate = useNavigate();
     let [fruitList, setFruitList] = useState([])
+    let a = useSelector((state) => { return state.order })
+    const dispatch = useDispatch();
 
     useEffect(() => {
-
         axios.get("/api/fruitList")
             .then((res) => {
                 console.log(res.data)
@@ -21,6 +24,16 @@ function Test() {
                 console.log(error)
             })
     }, [])
+
+    function temp() {
+        dispatch(updateOrder({ title: "사과", price: 7000, qy: 5, info: "123" }));
+
+
+    }
+
+    function info() {
+        console.log(a)
+    }
 
     return (
 
@@ -46,7 +59,7 @@ function Test() {
                             fruitList.map((data, index) => {
                                 return (
                                     <div className={"fruitInfo"} key={index} onClick={() => { navigate("/detail/" + data.fruitId) }}>
-                                        <img src={data.fruitImage}/>
+                                        <img src={data.fruitImage} />
                                         <p> {data.fruitName} </p>
                                         <p> {data.price} </p>
                                     </div>
@@ -54,8 +67,11 @@ function Test() {
                             })
                         }
                     </div>
+
                 </div>
             </div>
+            <Button onClick={() => { temp() }}>1 </Button>
+            <Button onClick={() => { info() }}>2</Button>
         </>
     )
 }

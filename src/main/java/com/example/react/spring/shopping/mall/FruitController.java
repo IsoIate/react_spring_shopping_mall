@@ -23,7 +23,7 @@ public class FruitController {
     private final S3Service s3Service;
 
     @GetMapping("/presigned-url")
-//    public String getURL (@RequestParam String filename) {
+    // public String getURL (@RequestParam String filename) {
     public ResponseEntity<Map<String, String>> getPresignedUrls(@RequestParam String filename) {
 
         String encodedName = URLDecoder.decode(filename, StandardCharsets.UTF_8);
@@ -39,19 +39,25 @@ public class FruitController {
 
     @GetMapping("/fruitList")
     @ResponseBody
-    public ResponseEntity<List> fruitList (Model model) {
+    public ResponseEntity<List> fruitList(Model model) {
         return ResponseEntity.ok(fruitService.selectFruitList());
+    }
+
+    @GetMapping("/newFruitList")
+    @ResponseBody
+    public ResponseEntity<List> newFruitList(Model model) {
+        return ResponseEntity.ok(fruitService.selectNewFruitList());
     }
 
     @GetMapping("/detail/{id}")
     @ResponseBody
-    public ResponseEntity fruitDetailData (@PathVariable Integer id, Model model) {
+    public ResponseEntity fruitDetailData(@PathVariable Integer id, Model model) {
         model.addAttribute("fruitData", fruitService.selectFruitDetail(id));
         return ResponseEntity.ok(fruitService.selectFruitDetail(id));
     }
 
     @PostMapping("/fruitInsert")
-    public ResponseEntity fruitInsert (Fruit fruit, @RequestBody Map<String, String> data){
+    public ResponseEntity fruitInsert(Fruit fruit, @RequestBody Map<String, String> data) {
 
         fruitService.fruitInsert(fruit, data);
 

@@ -1,13 +1,15 @@
 import Navbar from "../components/Navbar.jsx";
-import {Button, Card, Col, Image, Row} from "react-bootstrap";
+import { Button, Card, Col, Image, Row } from "react-bootstrap";
 import main_banner from "../assets/main_banner.png";
-import React from "react";
-import {useNavigate} from "react-router-dom";
+import { React, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
+import axios from "axios";
 
 function MainPage() {
 
     let navigate = useNavigate();
+    let [fruitList, setFruitList] = useState([])
     let bestFruits = [0, 1, 2, 3];
 
     const products = [
@@ -31,6 +33,17 @@ function MainPage() {
         }
     ];
 
+    useEffect(() => {
+        axios.get("/api/newFruitList")
+            .then((res) => {
+                console.log(res.data)
+                setFruitList(res.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
+
     return (
 
         <>
@@ -52,20 +65,23 @@ function MainPage() {
                     </div>
                     <div className={"bestInnerDiv mt-3"}>
                         <Container className="py-4">
-                            <h2 className="text-center mb-4">🍓 오늘의 과일 상품</h2>
+                            <h2 className="text-center mb-4">🍓 이번주 신상품</h2>
                             <Row>
-                                {products.map(product => (
-                                    <Col key={product.id} sm={12} md={6} lg={4} className="mb-4">
-                                        <Card className="h-100 shadow-sm">
-                                            <Card.Img variant="top" src={product.image} />
-                                            <Card.Body className="d-flex flex-column">
-                                                <Card.Title>{product.name}</Card.Title>
-                                                <Card.Text className="text-muted">{product.price.toLocaleString()}원</Card.Text>
-                                                <Button variant="success" className="mt-auto">장바구니 담기</Button>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
-                                ))}
+                                {fruitList.map((data, index) => {
+                                    return (
+                                        <Col key={index} sm={12} md={6} lg={4} className="mb-4">
+                                            <Card className="h-100 shadow-sm">
+                                                <Card.Img variant="top" src={data.fruitImage} />
+                                                <Card.Body className="d-flex flex-column">
+                                                    <Card.Title>{data.fruitName}</Card.Title>
+                                                    <Card.Text className="text-muted">{data.unit}</Card.Text>
+                                                    <Card.Text className="text-muted">{data.price.toLocaleString()}원</Card.Text>
+                                                    <Button variant="success" className="mt-auto" onClick={() => { navigate("/detail/" + data.fruitId) }}>자세히 보기</Button>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    )
+                                })}
                             </Row>
                         </Container>
                         {/*{*/}
@@ -87,10 +103,9 @@ function MainPage() {
                     <div className={"bestInnerDiv mt-3"}>
                         {
                             bestFruits.map((value, index) => {
-
                                 return (
-                                    <div className={"fruitInfo"} onClick={() => { navigate("/detail/" + value)}}>
-                                        <img src={'https://placehold.co/500'}/>
+                                    <div className={"fruitInfo"} onClick={() => { navigate("/detail/" + value) }} key={index}>
+                                        <img src={'https://placehold.co/500'} />
                                         <p> 과일 1 </p>
                                         <p> 10000원 </p>
                                     </div>
@@ -106,8 +121,8 @@ function MainPage() {
                             bestFruits.map((value, index) => {
 
                                 return (
-                                    <div className={"fruitInfo"} onClick={() => { navigate("/detail/" + value)}}>
-                                        <img src={'https://placehold.co/500'}/>
+                                    <div className={"fruitInfo"} onClick={() => { navigate("/detail/" + value) }} key={index}>
+                                        <img src={'https://placehold.co/500'} />
                                         <p> 과일 1 </p>
                                         <p> 10000원 </p>
                                     </div>

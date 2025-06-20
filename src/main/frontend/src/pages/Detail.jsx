@@ -1,12 +1,14 @@
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/detail.css"
+import { useDispatch, useSelector } from "react-redux";
+import { updateOrder } from "../store.js"
 // import {Button, Card, Col, Form, ListGroup, Row, Tab, Tabs} from "react-bootstrap";
 // import Container from "react-bootstrap/Container";
 
-import {Container, Row, Col, Card, Button, Tabs, Tab, Form, ListGroup, FormControl, InputGroup} from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Tabs, Tab, Form, ListGroup, FormControl, InputGroup } from 'react-bootstrap';
 
 const dummyProduct = {
     name: '프리미엄 딸기 500g',
@@ -35,6 +37,9 @@ function Detail() {
     let [minusBtnStatus, setMinusBtnStatus] = useState(true);
     let [plusBtnStatus, setPlusBtnStatus] = useState(false);
     let params = useParams();
+
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
 
@@ -88,6 +93,20 @@ function Detail() {
         }
     }
 
+    function purchasePage() {
+        dispatch(updateOrder({
+            title: fruitName,
+            price: price,
+            orderQy: fruitQy,
+            inventoryQy: quantity,
+            info: info,
+            imgUrl: fruitImage
+        }))
+
+        navigate("/purchase/2");
+    }
+
+
     const [reviews, setReviews] = useState(dummyReviews);
     const [newReview, setNewReview] = useState('');
 
@@ -123,17 +142,17 @@ function Detail() {
                             <h4>{price.toLocaleString()}원</h4>
                             <p> {info}</p>
                             <InputGroup style={{ maxWidth: '180px' }}>
-                                <Button variant="outline-secondary" disabled={minusBtnStatus} onClick={() => {changeFruitQy("minus")}}>
+                                <Button variant="outline-secondary" disabled={minusBtnStatus} onClick={() => { changeFruitQy("minus") }}>
                                     –
                                 </Button>
                                 {/* input에 숫자 외 문자 작성후 수량 감소 버튼 클릭 시 음수 값으로 변경되는 오류 해결필요 */}
-                                <FormControl className="text-center" name="fruitOrderQy" value={fruitQy} onChange={(qy) => {inputNumber(qy)}}/>
-                                <Button variant="outline-secondary"  disabled={plusBtnStatus} onClick={() => {changeFruitQy("plus")}}>
+                                <FormControl className="text-center" name="fruitOrderQy" value={fruitQy} onChange={(qy) => { inputNumber(qy) }} />
+                                <Button variant="outline-secondary" disabled={plusBtnStatus} onClick={() => { changeFruitQy("plus") }}>
                                     +
                                 </Button>
                             </InputGroup>
                             <div className="mt-auto d-flex justify-content-between">
-                                <Button variant="primary" className="me-2 flex-grow-1">구매하기</Button>
+                                <Button variant="primary" className="me-2 flex-grow-1" onClick={() => { purchasePage() }}>구매하기</Button>
                                 <Button variant="success" className="flex-grow-1">장바구니 담기</Button>
                             </div>
                         </Card.Body>

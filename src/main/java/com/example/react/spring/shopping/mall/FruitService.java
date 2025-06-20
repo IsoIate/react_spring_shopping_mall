@@ -13,13 +13,21 @@ public class FruitService {
 
     private final FruitRepository fruitRepository;
 
-    public List<Fruit> selectFruitList () {
+    public List<Fruit> selectFruitList() {
+
         List<Fruit> result = fruitRepository.findAll();
 
         return result;
     }
 
-    public Optional<Fruit> selectFruitDetail (Integer id) {
+    public List<Fruit> selectNewFruitList() {
+
+        List<Fruit> result = fruitRepository.newFruitList();
+
+        return result;
+    }
+
+    public Optional<Fruit> selectFruitDetail(Integer id) {
         Optional<Fruit> result = fruitRepository.findById(id);
 
         return result;
@@ -30,7 +38,7 @@ public class FruitService {
         fruit.setFruitName(data.get("title"));
         fruit.setPrice(Integer.valueOf(data.get("price")));
         fruit.setQuantity(Integer.valueOf(data.get("quantity")));
-        fruit.setInfo(data.get("info"));
+        fruit.setUnit(data.get("unit"));
         fruit.setDetailInfo(data.get("detailInfo"));
         fruit.setFruitImage(data.get("imgUrl"));
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 
+
 function Test2() {
     const [form, setForm] = useState({
         name: '',
@@ -62,7 +63,7 @@ function Test2() {
                 <Form.Group className="mb-4" controlId="formFile">
                     <Form.Label> 상품 이미지 </Form.Label>
                     <Form.Control
-                        type="file"/>
+                        type="file" />
                 </Form.Group>
 
                 <div className="d-grid">
