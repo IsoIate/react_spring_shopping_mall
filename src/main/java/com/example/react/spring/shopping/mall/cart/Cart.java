@@ -1,4 +1,4 @@
-package com.example.react.spring.shopping.mall;
+package com.example.react.spring.shopping.mall.cart;
 
 import java.time.LocalDateTime;
 
@@ -15,21 +15,13 @@ import lombok.ToString;
 @Getter
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-public class Fruit {
-
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer cartId;
+    private Integer memberId;
     private Integer fruitId;
-    private String fruitName;
-    private Integer price;
-    private Integer quantity;
-    private String unit;
-    private String category;
-    @Column(columnDefinition = "TEXT")
-    private String detailInfo;
-    @Column(columnDefinition = "TEXT")
-    private String fruitImage;
+    private Integer fruitQuantity;
     @CreatedDate
     private LocalDateTime insertDate;
-
 }

@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../css/Navbar.css';
 import Form from "react-bootstrap/Form";
-import {Button, Col, Image, Row} from "react-bootstrap";
+import { Button, Col, Image, Row } from "react-bootstrap";
 import main_banner from '../assets/main_banner_2.png';
 
 function navbar() {
@@ -47,25 +47,25 @@ function navbar() {
             <Container className={"tabContainer"}>
                 <Nav defaultActiveKey="/home" as="ul">
                     <Nav.Item as="li">
-                        <Nav.Link href="/home">베스트</Nav.Link>
+                        <Nav.Link href="/best">베스트</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link eventKey="link-1">신상품</Nav.Link>
+                        <Nav.Link eventKey="link-1" href="/newProducts">신상품</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link eventKey="link-2">제철과일</Nav.Link>
+                        <Nav.Link eventKey="link-2" href="/fruitList/1">사과/배</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link eventKey="link-3">사과/배</Nav.Link>
+                        <Nav.Link eventKey="link-3" href="/fruitList/2">귤/한라봉/감귤류</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link eventKey="link-4">귤/한라봉/감귤류</Nav.Link>
+                        <Nav.Link eventKey="link-4" href="/fruitList/3">수박/메론/참외</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link eventKey="link-5">수박/메론/참외</Nav.Link>
+                        <Nav.Link eventKey="link-5" href="/fruitList/4">딸기/블루베리/베리류</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link eventKey="link-6">딸기/블루베리/베리류</Nav.Link>
+                        <Nav.Link eventKey="link-6" href="/fruitList/5">그 외 과일</Nav.Link>
                     </Nav.Item>
                 </Nav>
             </Container>

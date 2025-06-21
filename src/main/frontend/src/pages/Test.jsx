@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
 import { Image, Button } from "react-bootstrap";
 import main_banner from "../assets/main_banner.png";
@@ -13,9 +13,10 @@ function Test() {
     let [fruitList, setFruitList] = useState([])
     let a = useSelector((state) => { return state.order })
     const dispatch = useDispatch();
+    let params = useParams();
 
     useEffect(() => {
-        axios.get("/api/fruitList")
+        axios.get("/api/fruitList/" + params.id)
             .then((res) => {
                 console.log(res.data)
                 setFruitList(res.data)

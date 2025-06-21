@@ -5,6 +5,8 @@ import localUrl from "../js/common.js";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Form, Image } from "react-bootstrap";
 import Navbar from "../components/Navbar.jsx";
+import "../css/purchase.css"
+
 
 function FruitInsert() {
 
@@ -69,7 +71,7 @@ function FruitInsert() {
     }
 
 
-
+    let [selectedValue, setSelectedValue] = useState('');
 
     const [form, setForm] = useState({
         title: '',
@@ -83,8 +85,21 @@ function FruitInsert() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    const selectChange = (e) => {
+        setSelectedValue(e.target.value);
+    }
+
     const handleSubmit = (e) => {
-        const totalForm = { ...form, "imgUrl": imgUrl };
+        const totalForm = { ...form, "imgUrl": imgUrl, "category": selectedValue };
+
+        if (totalForm.price === "0" || totalForm.price === 0) {
+            alert("가격을 설정해 주세요.");
+            return false;
+        }
+        if (totalForm.quantity === "0" || totalForm.quantity === 0) {
+            alert("수량을 설정해 주세요.");
+            return false;
+        }
 
         if (!confirm("상품을 등록하시겠습니까?")) return false;
 
@@ -133,13 +148,27 @@ function FruitInsert() {
                     <Form.Group className="mb-3" controlId="formQuantity">
                         <Form.Label> 수량 </Form.Label>
                         <Form.Control
-                            type="number"
                             placeholder="수량을 입력하세요"
                             name="quantity"
                             value={form.quantity}
                             onChange={handleChange}
                             required
                         />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formCategory">
+                        <Form.Label> 분류 </Form.Label>
+                        <Form.Select
+                            value={selectedValue}
+                            onChange={selectChange}
+                            required
+                        >
+                            <option value=""> --- 분류를 선택해 주세요 --- </option>
+                            <option value="group_1"> 사과/배 </option>
+                            <option value="group_2"> 귤/한라봉/감귤류 </option>
+                            <option value="group_3"> 수박/메론/참외 </option>
+                            <option value="group_4"> 딸기/블루베리/베리류 </option>
+                        </Form.Select>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formUnit">
@@ -172,6 +201,7 @@ function FruitInsert() {
                         <Form.Control
                             type="file"
                             onChange={(e) => { getURL(e) }}
+                            required
                         />
                     </Form.Group>
 

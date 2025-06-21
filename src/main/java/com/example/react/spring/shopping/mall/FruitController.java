@@ -37,18 +37,40 @@ public class FruitController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/fruitList")
+    // 과일 분류별 조회
+    @GetMapping("/fruitList/{id}")
     @ResponseBody
-    public ResponseEntity<List> fruitList(Model model) {
-        return ResponseEntity.ok(fruitService.selectFruitList());
+    public ResponseEntity<List> fruitList(@PathVariable Integer id) {
+        return ResponseEntity.ok(fruitService.selectFruitListByGroup(id));
+    }
+
+    // 판매량별 조회
+    @GetMapping("/bestFruitList/main")
+    @ResponseBody
+    public ResponseEntity<List> selectBestFruitListLimit() {
+        return ResponseEntity.ok(fruitService.selectBestFruitListLimit());
+    }
+
+    @GetMapping("/bestFruitList/best")
+    @ResponseBody
+    public ResponseEntity<List> bestFruitList() {
+        return ResponseEntity.ok(fruitService.selectBestFruitList());
+    }
+
+    // 신상품 조회
+    @GetMapping("/newProductsList")
+    @ResponseBody
+    public ResponseEntity<List> newProductsList() {
+        return ResponseEntity.ok(fruitService.selectNewProductList());
     }
 
     @GetMapping("/newFruitList")
     @ResponseBody
-    public ResponseEntity<List> newFruitList(Model model) {
+    public ResponseEntity<List> newFruitList() {
         return ResponseEntity.ok(fruitService.selectNewFruitList());
     }
 
+    // 과일 상세페이지
     @GetMapping("/detail/{id}")
     @ResponseBody
     public ResponseEntity fruitDetailData(@PathVariable Integer id, Model model) {
@@ -56,6 +78,7 @@ public class FruitController {
         return ResponseEntity.ok(fruitService.selectFruitDetail(id));
     }
 
+    // 과일 등록
     @PostMapping("/fruitInsert")
     public ResponseEntity fruitInsert(Fruit fruit, @RequestBody Map<String, String> data) {
 

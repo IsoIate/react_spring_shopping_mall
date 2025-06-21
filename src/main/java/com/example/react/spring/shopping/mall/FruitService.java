@@ -13,9 +13,27 @@ public class FruitService {
 
     private final FruitRepository fruitRepository;
 
-    public List<Fruit> selectFruitList() {
+    public List<Fruit> selectFruitListByGroup(Integer id) {
 
-        List<Fruit> result = fruitRepository.findAll();
+        String queryString = "group_" + id;
+        List<Fruit> result = fruitRepository.findByCategory(queryString);
+
+        return result;
+    }
+
+    public List<Fruit> selectBestFruitListLimit() {
+        List<Fruit> result = fruitRepository.bestFruitListLimit();
+        return result;
+    }
+
+    public List<Fruit> selectBestFruitList() {
+        List<Fruit> result = fruitRepository.bestFruitList();
+        return result;
+    }
+
+    public List<Fruit> selectNewProductList() {
+
+        List<Fruit> result = fruitRepository.newProductList();
 
         return result;
     }

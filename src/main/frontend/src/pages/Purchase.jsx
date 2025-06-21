@@ -71,8 +71,7 @@ function Purchase() {
                         <Card.Body className="d-flex flex-column h-100">
                             <h2 className="mb-4">{orderData.title}</h2>
                             <h4>{orderData.price.toLocaleString()}원</h4>
-                            <p> {orderData.info}</p>
-                            <Card.Text>단위: Box (1kg)</Card.Text>
+                            <p> {orderData.unit}</p>
                             <InputGroup style={{ maxWidth: '180px' }}>
                                 <Button variant="outline-secondary" disabled={orderQy === 1} onClick={() => { changeFruitQy("minus") }}>
                                     –
