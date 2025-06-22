@@ -17,7 +17,7 @@ function navbar() {
                         <Nav.Link href="/fruitInsert">과일 등록</Nav.Link>
                         <Nav.Link href="/test">과일 조회</Nav.Link>
                         <Nav.Link href="#pricing">아이디</Nav.Link>
-                        <Nav.Link href="#pricing">장바구니</Nav.Link>
+                        <Nav.Link href="/cart/1">장바구니</Nav.Link>
                         <Nav.Link href="#home">로그인</Nav.Link>
                         <Nav.Link href="#features">로그아웃</Nav.Link>
                         <Nav.Link href="#pricing">회원가입</Nav.Link>

@@ -8,6 +8,7 @@ import NewProducts from "./pages/NewProducts.jsx"
 import FruitList from "./pages/FruitList.jsx"
 import Detail from "./pages/Detail.jsx";
 import FruitInsert from "./pages/FruitInsert.jsx";
+import Cart from './pages/Cart.jsx';
 import Purchase from './pages/Purchase.jsx';
 import Test from "./pages/Test.jsx"
 import Test2 from "./pages/Test2.jsx";
@@ -29,6 +30,7 @@ function App() {
                 <Route path={"/newProducts"} element={<NewProducts></NewProducts>} />
                 <Route path={"/fruitList/:id"} element={<FruitList></FruitList>} />
                 <Route path={"/detail/:id"} element={<Detail></Detail>} />
+                <Route path={"/cart/:id"} element={<Cart></Cart>} />
                 <Route path={"/purchase/:id"} element={<Purchase></Purchase>} />
                 <Route path={"/fruitInsert"} element={<FruitInsert></FruitInsert>} />
                 <Route path={"*"} element={<div> 없는 페이지입니다. </div>} />

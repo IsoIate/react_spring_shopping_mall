@@ -123,17 +123,6 @@ function Detail() {
             })
     }
 
-    function selectCart() {
-        axios.get("/api/cartList")
-            .then((res) => {
-                console.log(res.data)
-            })
-            .catch((e) => {
-
-            })
-    }
-
-
     const [reviews, setReviews] = useState(dummyReviews);
     const [newReview, setNewReview] = useState('');
 
@@ -180,7 +169,6 @@ function Detail() {
                             <div className="mt-auto d-flex justify-content-between">
                                 <Button variant="primary" className="me-2 flex-grow-1" onClick={() => { purchasePage() }}>구매하기</Button>
                                 <Button variant="success" className="flex-grow-1" onClick={() => { insertCart() }}>장바구니 담기</Button>
-                                <Button variant="success" className="flex-grow-1" onClick={() => { selectCart() }}>장바구니 조회</Button>
                             </div>
                         </Card.Body>
                     </Col>

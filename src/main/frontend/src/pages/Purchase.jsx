@@ -1,147 +1,126 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Form, InputGroup, FormControl } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "../css/purchase.css"
-import styled from 'styled-components';
-
-
-// TODO : form 전송, 고객 정보 DB조회 후 기입
+import axios from "axios";
+import { Container, Row, Col, Card, Button, Form, Image } from 'react-bootstrap';
+import Navbar from "../components/Navbar.jsx";
 
 function Purchase() {
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("주문 정보:", form);
-        console.log("총 결제 금액:", totalPrice);
-        alert("결제가 완료되었습니다!");
-    };
-
-
-
+    let params = useParams();
     let orderData = useSelector((state) => { return state.order })
-    let [orderQy, setOrderQy] = useState(1);
-    const [inventoryQy, setInventoryQy] = useState(1);
+    let [cartData, setCartData] = useState([]);
+    let totalPrice = cartData.reduce((sum, item) => sum + item.price * item.count, 0);
 
-    // 수량 초기화
     useEffect(() => {
-        setOrderQy(orderData.orderQy);
-        setInventoryQy(orderData.inventoryQy)
-    }, [])
-
-    // 수량 버튼 조작부
-    function changeFruitQy(type) {
-        let qy = orderQy;
-        type === "plus" ? qy += 1 : qy -= 1;
-
-        setOrderQy(qy);
-    }
-
-    function inputNumber(qy) {
-        let onlyNums = qy.target.value;
-
-        // 숫자만 받는 정규식
-        if (/^[0-9]+$/.test(qy.target.value)) {
-            if (onlyNums < 1)
-                onlyNums = 1;
-            else if (onlyNums > inventoryQy)
-                onlyNums = inventoryQy;
-
-            setOrderQy(onlyNums)
-        } else {
-            setOrderQy(orderQy)
-        }
-    }
+        axios.get("/api/cartList/" + params.id)
+            .then((res) => {
+                console.log(res.data)
+                setCartData(res.data);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [params])
 
     return (
-        <Container className="py-5">
-            <h3 className="text-center mb-4">🍓 과일 결제 페이지</h3>
+        <>
+            <Navbar></Navbar>
 
-            <Container className="py-4 px-0">
-                <Row className=''>
-                    <Col md={6}>
-                        <Card>
-                            <Card.Img variant="top" src={orderData.imgUrl} />
-                        </Card>
-                    </Col>
-                    <Col md={6}>
-                        <Card.Body className="d-flex flex-column h-100">
-                            <h2 className="mb-4">{orderData.title}</h2>
-                            <h4>{orderData.price.toLocaleString()}원</h4>
-                            <p> {orderData.unit}</p>
-                            <InputGroup style={{ maxWidth: '180px' }}>
-                                <Button variant="outline-secondary" disabled={orderQy === 1} onClick={() => { changeFruitQy("minus") }}>
-                                    –
-                                </Button>
-                                <FormControl className="text-center no-spinner" type="number" name="fruitOrderQy" value={orderQy} onChange={(qy) => { inputNumber(qy) }} />
-                                <Button variant="outline-secondary" disabled={orderQy >= inventoryQy} onClick={() => { changeFruitQy("plus") }}>
-                                    +
-                                </Button>
-                            </InputGroup>
-                            <div className="mt-auto d-flex justify-content-between">
-                                <h5 className="text-danger">총액: {(orderData.price * orderQy).toLocaleString()}원</h5>
-                            </div>
-                        </Card.Body>
-                    </Col>
-                </Row>
-            </Container>
-            <Row>
-                {/* 배송/결제 정보 */}
-                <Col md={12} className="mb-4">
-                    <Card className="p-4 shadow-sm">
-                        <Form onSubmit={handleSubmit}>
+            <Container className="mt-5">
+                <h3>🧾 구매하기</h3>
+
+                {
+                    orderData.title.trim() != ""
+                        ? <OrderInfoTemplate_1 orderData={orderData}></OrderInfoTemplate_1>
+                        : <OrderInfoTemplate_2 cartData={cartData}></OrderInfoTemplate_2>
+
+                }
+
+                < Card className="mb-4" >
+                    <Card.Header>🚚 배송 정보</Card.Header>
+                    <Card.Body>
+                        <Form>
                             <Form.Group className="mb-3">
-                                <Form.Label>이름</Form.Label>
-                                <Form.Control type="text" name="name" required placeholder="받는 분 성함" onChange={handleChange} />
+                                <Form.Label>받는 사람</Form.Label>
+                                <Form.Control type="text" placeholder="이름을 입력하세요" />
                             </Form.Group>
-
-                            <Form.Group className="mb-3">
-                                <Form.Label>주소</Form.Label>
-                                <Form.Control type="text" name="address" required placeholder="배송 받을 주소" onChange={handleChange} />
-                            </Form.Group>
-
                             <Form.Group className="mb-3">
                                 <Form.Label>연락처</Form.Label>
-                                <Form.Control type="tel" name="phone" required placeholder="010-1234-5678" onChange={handleChange} />
+                                <Form.Control type="text" placeholder="010-xxxx-xxxx" />
                             </Form.Group>
-                            <Button type="submit" variant="primary" className="w-100 mt-3">
-                                {(orderData.price * orderQy).toLocaleString()}원 결제하기
-                            </Button>
-                        </Form>
-                    </Card>
-                </Col>
-            </Row>
-            {/* <Row>
-                <Col md={12}>
-                    <Card className="p-4 shadow-sm">
-                        <Form onSubmit={handleSubmit}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>이름</Form.Label>
-                                <Form.Control type="text" name="name" required placeholder="받는 분 성함" onChange={handleChange} />
-                            </Form.Group>
-
                             <Form.Group className="mb-3">
                                 <Form.Label>주소</Form.Label>
-                                <Form.Control type="text" name="address" required placeholder="배송 받을 주소" onChange={handleChange} />
+                                <Form.Control type="text" placeholder="배송 주소를 입력하세요" />
                             </Form.Group>
-
                             <Form.Group className="mb-3">
-                                <Form.Label>연락처</Form.Label>
-                                <Form.Control type="tel" name="phone" required placeholder="010-1234-5678" onChange={handleChange} />
+                                <Form.Label>요청사항</Form.Label>
+                                <Form.Control as="textarea" rows={2} placeholder="배송 시 요청사항이 있다면 입력하세요" />
                             </Form.Group>
-
-                            <Button type="submit" variant="primary" className="w-100 mt-3">
-                                {totalPrice.toLocaleString()}원 결제하기
-                            </Button>
                         </Form>
-                    </Card>
-                </Col>
-            </Row> */}
-        </Container >
+                    </Card.Body>
+                </Card>
+
+                <Card className="mb-4">
+                    <Card.Body>
+                        <Row>
+                            <Col md={7} className="text-start">
+                                <p>총 수량: 2개</p>
+                                <p><strong>총액: 6,000원</strong></p>
+                            </Col>
+                            <Col md={5} className="d-flex justify-content-end align-items-center">
+                                <div className="text-end">
+                                    <Button variant="success" size="lg">💳 결제하기</Button>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Card.Body>
+                </Card>
+            </Container >
+        </>
     );
+}
+
+function OrderInfoTemplate_1({ orderData }) {
+    return (
+        <Card className="mb-3" >
+            <Card.Body>
+                <Row className="align-items-center">
+                    <Col xs={3}>
+                        <Image src={orderData.imgUrl} fluid />
+                    </Col>
+                    <Col xs={3}>{orderData.title}</Col>
+                    <Col xs={2}>{orderData.price.toLocaleString()}원</Col>
+                    <Col xs={2}>수량 : {orderData.orderQy}</Col>
+                    <Col xs={2}>계 : {(orderData.price * orderData.orderQy).toLocaleString()}원</Col>
+                </Row>
+            </Card.Body>
+        </Card>
+    )
+}
+
+function OrderInfoTemplate_2({ cartData }) {
+
+    return (
+        cartData.map((item, index) => {
+            return (
+                <Card className="mb-3" key={index}>
+                    <Card.Body>
+                        <Row className="align-items-center">
+                            <Col xs={3}>
+                                <Image src={item.fruitImage} fluid />
+                            </Col>
+                            <Col xs={3}>{item.fruitName}</Col>
+                            <Col xs={2}>{item.price.toLocaleString()}원</Col>
+                            <Col xs={2}>수량 : {item.count}</Col>
+                            <Col xs={2}>계 : {(item.price * item.count).toLocaleString()}원</Col>
+                        </Row>
+                    </Card.Body>
+                </Card>
+            )
+        })
+    )
 }
 
 export default Purchase;
