@@ -7,12 +7,12 @@ import Container from "react-bootstrap/Container";
 import axios from "axios";
 import "../css/best.css"
 
-
 function MainPage() {
 
     let navigate = useNavigate();
     let [bestFruitList, setBestFruitList] = useState([])
     let [newFruitsList, setNewFruitList] = useState([]);
+
 
     useEffect(() => {
         axios.get("/api/bestFruitList/main")

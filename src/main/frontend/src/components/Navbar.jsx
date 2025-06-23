@@ -5,8 +5,31 @@ import '../css/Navbar.css';
 import Form from "react-bootstrap/Form";
 import { Button, Col, Image, Row } from "react-bootstrap";
 import main_banner from '../assets/main_banner_2.png';
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { logout } from '../store/authSlice';
+import { persistor } from '../store/store';
+import axios from 'axios';
 
 function navbar() {
+    let navigate = useNavigate();
+    // let loginData = useSelector((state) => { return state.login })
+    let loginData = useSelector((state) => { return state.auth })
+    let dispatch = useDispatch();
+
+    function logoutBtn() {
+
+
+        axios.post("/api/logout", {}, {
+            withCredentials: true
+        })
+            .then((res) => {
+                alert("로그아웃 되었습니다.");
+                dispatch(logout());
+                window.location.reload();
+            })
+    }
 
     return (
         <>
@@ -14,31 +37,21 @@ function navbar() {
                 <Container className={"custom_mw"}>
                     <Navbar.Brand href="/">달콤청과</Navbar.Brand>
                     <Nav className="me-auto user-nav">
+                        <Nav.Link href="/cart/1">장바구니</Nav.Link>
                         <Nav.Link href="/fruitInsert">과일 등록</Nav.Link>
                         <Nav.Link href="/test">과일 조회</Nav.Link>
-                        <Nav.Link href="#pricing">아이디</Nav.Link>
-                        <Nav.Link href="/cart/1">장바구니</Nav.Link>
-                        <Nav.Link href="#home">로그인</Nav.Link>
-                        <Nav.Link href="#features">로그아웃</Nav.Link>
-                        <Nav.Link href="#pricing">회원가입</Nav.Link>
+                        {
+                            loginData.isLogIn == false
+                                ? <Nav.Link href="/login">로그인</Nav.Link>
+                                : <Nav.Link onClick={() => { persistor.purge(); }}> {loginData.user} 님 어서오세요 </Nav.Link>
+                        }
+                        {
+                            loginData.isLogIn == false
+                                ? <Nav.Link href="/register">회원가입</Nav.Link>
+                                : <Nav.Link onClick={() => { logoutBtn() }}>로그아웃</Nav.Link>
+                        }
+
                     </Nav>
-                </Container>
-                <Container className={"custom_mw mt-2 mb-1"}>
-                    <h4> 123 마트 </h4>
-                    <Form>
-                        <Row>
-                            <Col xs="auto">
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Search"
-                                    className=" mr-sm-2"
-                                />
-                            </Col>
-                            <Col xs="auto">
-                                <Button type="submit">Submit</Button>
-                            </Col>
-                        </Row>
-                    </Form>
                 </Container>
             </Navbar>
             <Container className={"bannerContainer"}>

@@ -16,7 +16,6 @@ function Purchase() {
     useEffect(() => {
         axios.get("/api/cartList/" + params.id)
             .then((res) => {
-                console.log(res.data)
                 setCartData(res.data);
             })
             .catch((error) => {

@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/detail.css"
 import { useDispatch, useSelector } from "react-redux";
-import { updateOrder } from "../store.js"
+import { updateOrder } from '../store/orderSlice.js';
+// import { updateOrder } from "../store/store.js"
 // import {Button, Card, Col, Form, ListGroup, Row, Tab, Tabs} from "react-bootstrap";
 // import Container from "react-bootstrap/Container";
 
-import { Container, Row, Col, Card, Button, Tabs, Tab, Form, ListGroup, FormControl, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Tabs, Tab, Form, ListGroup, FormControl, InputGroup, FormLabel } from 'react-bootstrap';
 
 const dummyProduct = {
     name: '프리미엄 딸기 500g',
@@ -40,15 +41,14 @@ function Detail() {
     let [minusBtnStatus, setMinusBtnStatus] = useState(true);
     let [plusBtnStatus, setPlusBtnStatus] = useState(false);
 
-
-
-
+    let loginData = useSelector((state) => { return state.auth })
+    let orderData = useSelector((state) => { return state.order })
 
     useEffect(() => {
 
         axios.get("/api/detail/" + params.id)
             .then((res) => {
-                console.log(res.data)
+                // console.log(res.data)
                 setFruitName(res.data.fruitName);
                 setPrice(res.data.price);
                 setQuantity(res.data.quantity)
@@ -106,6 +106,7 @@ function Detail() {
             imgUrl: fruitImage
         }))
 
+        console.log(orderData)
         navigate("/purchase/2");
     }
 
@@ -166,10 +167,19 @@ function Detail() {
                                     +
                                 </Button>
                             </InputGroup>
-                            <div className="mt-auto d-flex justify-content-between">
-                                <Button variant="primary" className="me-2 flex-grow-1" onClick={() => { purchasePage() }}>구매하기</Button>
-                                <Button variant="success" className="flex-grow-1" onClick={() => { insertCart() }}>장바구니 담기</Button>
-                            </div>
+                            {
+                                loginData.isLogIn == true
+                                    ?
+                                    <div className="mt-auto d-flex justify-content-between">
+                                        <Button variant="primary" className="me-2 flex-grow-1" onClick={() => { purchasePage() }}>구매하기</Button>
+                                        <Button variant="success" className="flex-grow-1" onClick={() => { insertCart() }}>장바구니 담기</Button>
+                                    </div>
+                                    :
+                                    <InputGroup className="mt-auto d-flex justify-content-between">
+                                        <Form.Label className="flex-grow-1"> 죄송합니다. 현재 비회원 구매는 어렵습니다. </Form.Label>
+                                        <Button variant="success" className="flex-grow-1" onClick={() => { navigate("/login") }}> 로그인 / 회원가입 </Button>
+                                    </InputGroup>
+                            }
                         </Card.Body>
                     </Col>
                 </Row>

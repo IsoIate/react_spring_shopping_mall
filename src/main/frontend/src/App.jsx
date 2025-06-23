@@ -3,6 +3,8 @@ import './css/App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPage.jsx"
+import Login from "./pages/Login.jsx"
+import Register from "./pages/Register.jsx"
 import Best from "./pages/Best.jsx"
 import NewProducts from "./pages/NewProducts.jsx"
 import FruitList from "./pages/FruitList.jsx"
@@ -26,6 +28,8 @@ function App() {
                 <Route path={"/"} element={<MainPage></MainPage>} />
                 <Route path={"/test/:id"} element={<Test></Test>} />
                 <Route path={"/test2"} element={<Test2></Test2>} />
+                <Route path={"/login"} element={<Login></Login>} />
+                <Route path={"/register"} element={<Register></Register>} />
                 <Route path={"/best"} element={<Best></Best>} />
                 <Route path={"/newProducts"} element={<NewProducts></NewProducts>} />
                 <Route path={"/fruitList/:id"} element={<FruitList></FruitList>} />

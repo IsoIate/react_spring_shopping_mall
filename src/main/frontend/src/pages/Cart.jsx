@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/detail.css"
 import { useDispatch, useSelector } from "react-redux";
-import { updateOrder } from "../store.js"
+import { updateOrder } from "../store/orderSlice.js"
 // import { Button, Card, Col, Form, ListGroup, Row, Tab, Tabs } from "react-bootstrap";
 // import Container from "react-bootstrap/Container";
 
@@ -60,6 +60,7 @@ function Detail() {
     function updateCartItem() {
         axios.post("/api/updateCartItem", cartData)
             .then((res) => {
+                console.log(res.data)
                 navigate("/purchase/2")
             })
             .catch((e) => {
