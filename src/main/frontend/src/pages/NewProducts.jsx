@@ -6,9 +6,6 @@ import main_banner from "../assets/main_banner.png";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-// import { updateOrder } from "../store.js"
-
-
 
 
 function NewProducts() {

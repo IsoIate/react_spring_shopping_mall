@@ -43,7 +43,7 @@ function MainPage() {
                 <div className={"bestDiv mt-5"}>
                     <div className={"bestInnerDiv mt-3"}>
                         <Container className="py-4">
-                            <h2 className="text-center mb-4">베스트 상품</h2>
+                            <h2 className="text-center mb-4"> 👍 베스트 상품</h2>
                             <Row>
                                 {bestFruitList.map((data, index) => {
                                     return (
@@ -71,7 +71,7 @@ function MainPage() {
                     </div>
                     <div className={"bestInnerDiv mt-3"}>
                         <Container className="py-4">
-                            <h2 className="text-center mb-4">🍓 이번주 신상품</h2>
+                            <h2 className="text-center mb-4"> 🍓 이번주 신상품</h2>
                             <Row>
                                 {newFruitsList.map((data, index) => {
                                     return (
@@ -90,35 +90,6 @@ function MainPage() {
                                 })}
                             </Row>
                         </Container>
-                        {/*{*/}
-                        {/*    bestFruits.map((value, index) => {*/}
-
-                        {/*        return (*/}
-                        {/*            <div className={"fruitInfo"} onClick={() => { navigate("/detail/" + value)}}>*/}
-                        {/*                <img src={'https://placehold.co/500'}/>*/}
-                        {/*                <p> 과일 {index + 1} </p>*/}
-                        {/*                <p> 10000원 </p>*/}
-                        {/*            </div>*/}
-                        {/*        )*/}
-                        {/*    })*/}
-                        {/*}*/}
-                    </div>
-                </div>
-                <div className={"bestDiv mt-5"}>
-                    <h3> 베스트 리뷰 </h3>
-                    <div className={"bestInnerDiv mt-3"}>
-                        {
-                            newFruitsList.map((value, index) => {
-
-                                return (
-                                    <div className={"fruitInfo"} onClick={() => { navigate("/detail/" + value) }} key={index}>
-                                        <img src={'https://placehold.co/500'} />
-                                        <p> 과일 1 </p>
-                                        <p> 10000원 </p>
-                                    </div>
-                                )
-                            })
-                        }
                     </div>
                 </div>
             </div>

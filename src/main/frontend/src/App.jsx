@@ -7,31 +7,29 @@ import Login from "./pages/Login.jsx"
 import Register from "./pages/Register.jsx"
 import Best from "./pages/Best.jsx"
 import NewProducts from "./pages/NewProducts.jsx"
+import AllProducts from "./pages/AllProducts.jsx"
 import FruitList from "./pages/FruitList.jsx"
 import Detail from "./pages/Detail.jsx";
 import FruitInsert from "./pages/FruitInsert.jsx";
 import Cart from './pages/Cart.jsx';
 import Purchase from './pages/Purchase.jsx';
-import Test from "./pages/Test.jsx"
-import Test2 from "./pages/Test2.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategory } from './store/categorySlice.js';
+
 function App() {
-    // const [data, setData] = useState('');
-    // useEffect(() => {
-    //     axios.get('http://localhost:8080/api/test')
-    //         .then(res => setData(res.data))
-    //         .catch(err => console.log(err))
-    // }, []);
+
+    let dispatch = useDispatch();
+    dispatch(setCategory());
 
     return (
         <>
             <Routes>
                 <Route path={"/"} element={<MainPage></MainPage>} />
-                <Route path={"/test/:id"} element={<Test></Test>} />
-                <Route path={"/test2"} element={<Test2></Test2>} />
                 <Route path={"/login"} element={<Login></Login>} />
                 <Route path={"/register"} element={<Register></Register>} />
                 <Route path={"/best"} element={<Best></Best>} />
                 <Route path={"/newProducts"} element={<NewProducts></NewProducts>} />
+                <Route path={"/allProducts"} element={<AllProducts></AllProducts>} />
                 <Route path={"/fruitList/:id"} element={<FruitList></FruitList>} />
                 <Route path={"/detail/:id"} element={<Detail></Detail>} />
                 <Route path={"/cart/:id"} element={<Cart></Cart>} />

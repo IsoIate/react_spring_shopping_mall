@@ -6,9 +6,6 @@ import main_banner from "../assets/main_banner.png";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-// import { updateOrder } from "../store/store.js"
-
-
 
 
 function FruitList() {
@@ -72,18 +69,6 @@ function FruitList() {
                                 })}
                             </Row>
                         </Container>
-                        {/*{*/}
-                        {/*    bestFruits.map((value, index) => {*/}
-
-                        {/*        return (*/}
-                        {/*            <div className={"fruitInfo"} onClick={() => { navigate("/detail/" + value)}}>*/}
-                        {/*                <img src={'https://placehold.co/500'}/>*/}
-                        {/*                <p> 과일 {index + 1} </p>*/}
-                        {/*                <p> 10000원 </p>*/}
-                        {/*            </div>*/}
-                        {/*        )*/}
-                        {/*    })*/}
-                        {/*}*/}
                     </div>
                 </div>
             </div>

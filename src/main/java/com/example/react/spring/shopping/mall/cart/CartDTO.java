@@ -18,7 +18,6 @@ public class CartDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer fruitId;
-    private Integer cartId;
     private String fruitName;
     private Integer price;
     private Integer count;

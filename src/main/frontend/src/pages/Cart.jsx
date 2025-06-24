@@ -4,43 +4,24 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/detail.css"
 import { useDispatch, useSelector } from "react-redux";
-import { updateOrder } from "../store/orderSlice.js"
-// import { Button, Card, Col, Form, ListGroup, Row, Tab, Tabs } from "react-bootstrap";
-// import Container from "react-bootstrap/Container";
-
 import { Container, Row, Col, Card, Button, Tabs, Tab, Form, ListGroup, FormControl, InputGroup, Image } from 'react-bootstrap';
 
-const dummyProduct = {
-    name: '프리미엄 딸기 500g',
-    price: 7900,
-    image: 'https://source.unsplash.com/600x400/?strawberry',
-};
-
-const dummyReviews = [
-    { id: 1, author: '홍길동', content: '정말 신선하고 맛있어요!', rating: 5 },
-    { id: 2, author: '이영희', content: '배송이 빠르고 품질도 좋아요!', rating: 4 },
-];
-
 function Detail() {
-
     let navigate = useNavigate();
-    let params = useParams();   // 고객 ID로 변경필요
-    const dispatch = useDispatch();
-
     let [cartData, setCartData] = useState([]);
     let totalPrice = cartData.reduce((sum, item) => sum + item.price * item.count, 0);
+    let loginData = useSelector((state) => { return state.auth })
 
     useEffect(() => {
 
-        axios.get("/api/cartList/" + params.id)
+        axios.get("/api/cartList/" + loginData.id)
             .then((res) => {
-                console.log(res.data)
                 setCartData(res.data);
             })
             .catch((error) => {
                 console.log(error)
             })
-    }, [params])
+    }, [])
 
 
     const [inventoryQy, setInventoryQy] = useState(30);
@@ -58,10 +39,19 @@ function Detail() {
     }
 
     function updateCartItem() {
-        axios.post("/api/updateCartItem", cartData)
+        // e.preventDefault();
+
+        axios.post("/api/updateCartItem", {
+            memberId: loginData.id,
+            data: cartData
+        },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
             .then((res) => {
-                console.log(res.data)
-                navigate("/purchase/2")
+                navigate("/purchase/cart")
             })
             .catch((e) => {
 
@@ -75,7 +65,7 @@ function Detail() {
         axios.delete("/api/deleteCartItem", {
             data: {
                 fruitId: Number(fruitId),
-                memberId: Number(params.id)
+                memberId: Number(loginData.id)
             }
         })
             .then((res) => {
@@ -86,21 +76,11 @@ function Detail() {
             })
     }
 
-    function temp() {
-        let tempData = [...cartData];
-
-        tempData[0].count = 100;
-        setCartData(tempData)
-        console.log(cartData)
-    }
-
     return (
         <>
             <Navbar></Navbar>
-
             <Container className="my-5">
                 <h3 className="mb-4">🛒 장바구니</h3>
-                <Button onClick={() => { temp() }}>1</Button>
                 <Row>
                     <Col md={8}>
                         {

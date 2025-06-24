@@ -1,4 +1,4 @@
-package com.example.react.spring.shopping.mall.review;
+package com.example.react.spring.shopping.mall.payment;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,13 +13,20 @@ import lombok.ToString;
 @ToString
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Review {
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer reviewId;
+    private Integer id;
+    private Integer samePaymentId;
     private Integer memberId;
     private Integer fruitId;
-    private String review;
-    @CreatedDate
-    private String reviewDate;
+    private String fruitName;
+    private Integer count;
+    private Integer totalPrice;
+    @Column(columnDefinition = "TEXT")
+    private String fruitImage;
+    private String username;
+    private String phoneNumber;
+    private String adress;
+    private String adressDetail;
 }

@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 //@Controller
 //@RequiredArgsConstructor
 @RestController
-//@CrossOrigin
+// @CrossOrigin
 public class MainController {
 
     @GetMapping("/")
     public String mainPage() {
-
-        System.out.println("zzz");
 
         return "/frontend/src/index.html";
     }

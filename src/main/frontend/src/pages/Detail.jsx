@@ -5,22 +5,7 @@ import axios from "axios";
 import "../css/detail.css"
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrder } from '../store/orderSlice.js';
-// import { updateOrder } from "../store/store.js"
-// import {Button, Card, Col, Form, ListGroup, Row, Tab, Tabs} from "react-bootstrap";
-// import Container from "react-bootstrap/Container";
-
 import { Container, Row, Col, Card, Button, Tabs, Tab, Form, ListGroup, FormControl, InputGroup, FormLabel } from 'react-bootstrap';
-
-const dummyProduct = {
-    name: '프리미엄 딸기 500g',
-    price: 7900,
-    image: 'https://source.unsplash.com/600x400/?strawberry',
-};
-
-const dummyReviews = [
-    { id: 1, author: '홍길동', content: '정말 신선하고 맛있어요!', rating: 5 },
-    { id: 2, author: '이영희', content: '배송이 빠르고 품질도 좋아요!', rating: 4 },
-];
 
 function Detail() {
 
@@ -40,15 +25,16 @@ function Detail() {
     let [fruitQy, setFruitQy] = useState(1);
     let [minusBtnStatus, setMinusBtnStatus] = useState(true);
     let [plusBtnStatus, setPlusBtnStatus] = useState(false);
+    let [reviewList, setReviewList] = useState([]);
 
     let loginData = useSelector((state) => { return state.auth })
     let orderData = useSelector((state) => { return state.order })
 
     useEffect(() => {
 
+        // 과일 상세정보
         axios.get("/api/detail/" + params.id)
             .then((res) => {
-                // console.log(res.data)
                 setFruitName(res.data.fruitName);
                 setPrice(res.data.price);
                 setQuantity(res.data.quantity)
@@ -59,6 +45,13 @@ function Detail() {
             .catch((error) => {
                 console.log(error)
             })
+
+        // 리뷰 조회
+        axios.get("/api/selectReview/" + params.id)
+            .then((res) => {
+                setReviewList(res.data)
+            })
+            .catch((e) => console.log(e))
     }, [params])
 
     useEffect(() => {
@@ -106,14 +99,13 @@ function Detail() {
             imgUrl: fruitImage
         }))
 
-        console.log(orderData)
-        navigate("/purchase/2");
+        navigate("/purchase/item");
     }
 
     function insertCart() {
         axios.post("/api/insertCart", {
             fruitId: Number(params.id),
-            memberId: Number(1),
+            memberId: Number(loginData.id),
             fruitQuantity: Number(fruitQy)
         })
             .then((res) => {
@@ -124,21 +116,25 @@ function Detail() {
             })
     }
 
-    const [reviews, setReviews] = useState(dummyReviews);
-    const [newReview, setNewReview] = useState('');
+    const [review, setReview] = useState('');
 
-    const handleReviewSubmit = (e) => {
+    const insertReview = (e) => {
         e.preventDefault();
-        if (!newReview.trim()) return;
 
-        const newItem = {
-            id: Date.now(),
-            author: '익명',
-            content: newReview.trim(),
-            rating: 5,
-        };
-        setReviews([...reviews, newItem]);
-        setNewReview('');
+        if (!review.trim()) return;
+
+        axios.post("/api/insertReview", {
+            fruitId: Number(params.id),
+            memberId: Number(loginData.id),
+            review: review.trim(),
+        })
+            .then((res) => {
+                alert("리뷰를 작성했습니다.");
+                window.location.reload();
+            })
+            .catch((e) => {
+
+            })
     };
 
 
@@ -191,31 +187,33 @@ function Detail() {
                         </Card>
                     </Tab>
 
-                    <Tab eventKey="review" title={`리뷰 (${reviews.length})`}>
+                    <Tab eventKey="review" title={`리뷰 ${reviewList.length}`}>
                         <Card className="mt-3 p-3">
                             <h5 className="mb-3">리뷰 목록</h5>
                             <ListGroup variant="flush">
-                                {reviews.map((r) => (
-                                    <ListGroup.Item key={r.id}>
-                                        <strong>{r.author}</strong>: {r.content}
+                                {reviewList.map((data, index) => (
+                                    <ListGroup.Item key={index}>
+                                        <strong>{data.author}</strong>: {data.review}
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>
 
-                            <Form onSubmit={handleReviewSubmit} className="mt-4">
+                            <Form onSubmit={insertReview} className="mt-4">
                                 <Form.Group controlId="reviewInput">
                                     <Form.Label>리뷰 작성</Form.Label>
                                     <Form.Control
                                         as="textarea"
                                         rows={3}
-                                        value={newReview}
-                                        onChange={(e) => setNewReview(e.target.value)}
+                                        value={review}
+                                        onChange={(e) => setReview(e.target.value)}
                                         placeholder="리뷰를 입력하세요"
                                     />
                                 </Form.Group>
-                                <Button type="submit" variant="primary" className="mt-2">
-                                    리뷰 등록
-                                </Button>
+                                <InputGroup className="justify-content-end">
+                                    <Button type="submit" variant="primary" className="mt-2">
+                                        리뷰 등록
+                                    </Button>
+                                </InputGroup>
                             </Form>
                         </Card>
                     </Tab>

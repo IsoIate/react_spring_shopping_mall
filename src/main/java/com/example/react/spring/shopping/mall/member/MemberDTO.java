@@ -1,8 +1,5 @@
 package com.example.react.spring.shopping.mall.member;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -20,19 +17,15 @@ import lombok.ToString;
 @Setter
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-public class Member {
+public class MemberDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String memberId;
-    private String memberPw;
-    private String memberRole;
     private String memberName;
     private String memberEmail;
     private String memberPhoneNumber;
     @Column(columnDefinition = "TEXT")
     private String memberAdress;
     private String memberDetailAdress;
-    @CreatedDate
-    private LocalDateTime insertDate;
 }

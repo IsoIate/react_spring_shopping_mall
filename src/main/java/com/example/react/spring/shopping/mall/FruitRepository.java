@@ -2,6 +2,8 @@ package com.example.react.spring.shopping.mall;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -27,4 +29,5 @@ public interface FruitRepository extends JpaRepository<Fruit, Integer> {
     @Query(value = "select * from fruit where date_format(insert_date, '%Y-%m') = date_format(curdate(), '%Y-%m') order by insert_date desc", nativeQuery = true)
     List<Fruit> newProductList();
 
+    Page<Fruit> findPageBy(Pageable page);
 }

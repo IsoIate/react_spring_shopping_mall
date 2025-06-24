@@ -57,13 +57,22 @@ public class FruitController {
         return ResponseEntity.ok(fruitService.selectBestFruitList());
     }
 
-    // 신상품 조회
+    // 신상품 페이지 조회
     @GetMapping("/newProductsList")
     @ResponseBody
     public ResponseEntity<List> newProductsList() {
         return ResponseEntity.ok(fruitService.selectNewProductList());
     }
 
+    // 전체상품 페이지 조회
+    @GetMapping("/allProductsList")
+    @ResponseBody
+    public ResponseEntity allProductsList(@RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "6") Integer limit) {
+        return ResponseEntity.ok(fruitService.selectAllProductList(page, limit));
+    }
+
+    // 메인 페이지용 신상품 과일 3개 조회
     @GetMapping("/newFruitList")
     @ResponseBody
     public ResponseEntity<List> newFruitList() {

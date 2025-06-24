@@ -13,10 +13,8 @@ import lombok.RequiredArgsConstructor;
 public class CartService {
     private final CartRepository cartRepository;
 
-    public List<CartDTO> selectCartList() {
-        Integer memberId = 1;
-
-        List<CartDTO> result = cartRepository.selectCartList(memberId);
+    public List<CartDTO> selectCartList(Integer id) {
+        List<CartDTO> result = cartRepository.selectCartList(id);
 
         return result;
     }
@@ -27,21 +25,26 @@ public class CartService {
         cart.setMemberId(data.get("memberId"));
         cart.setFruitQuantity(data.get("fruitQuantity"));
 
-        // 추후 같은 과일 ID를 가진 값이 들어오면 insert 대신 update하는 쿼리로 수정 필요
         cartRepository.save(cart);
     }
 
     @Transactional
-    public void updateCartItem(Cart cart, List<Map<String, String>> data) {
-        Integer cartId = 0;
-        Integer count = 0;
+    public void updateCartItem(CartRequest data) {
+        List<CartRequest.CartData> dataList = data.getData();
 
-        for (int i = 0; i < data.size(); i++) {
-            cartId = Integer.parseInt(data.get(i).get("cartId"));
-            count = Integer.parseInt(data.get(i).get("count"));
+        for (CartRequest.CartData item : dataList) {
+            Cart cart = new Cart();
+            cart.setFruitId(item.getFruitId());
+            cart.setFruitQuantity(item.getCount());
+            cart.setMemberId(Integer.parseInt(data.getMemberId()));
 
-            cartRepository.updateCartItem(cartId, count);
+            cartRepository.save(cart);
         }
+    }
+
+    public Integer deleteCartItemByMemberId(Integer memberId) {
+
+        return cartRepository.deleteByMemberId(memberId);
     }
 
     public Integer deleteCartItem(Cart cart, Map<String, Integer> data) {

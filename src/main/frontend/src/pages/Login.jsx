@@ -22,7 +22,8 @@ function Login() {
             .then((res) => {
                 dispatch(login({
                     id: res.data.id,
-                    user: res.data.memberName
+                    user: res.data.memberName,
+                    role: res.data.memberRole,
                 }))
                 navigate("/")
             })

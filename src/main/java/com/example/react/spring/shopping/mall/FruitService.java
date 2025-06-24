@@ -1,6 +1,9 @@
 package com.example.react.spring.shopping.mall;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +37,14 @@ public class FruitService {
     public List<Fruit> selectNewProductList() {
 
         List<Fruit> result = fruitRepository.newProductList();
+
+        return result;
+    }
+
+    // 페이지네이션
+    public Page<Fruit> selectAllProductList(Integer page, Integer limit) {
+
+        Page<Fruit> result = fruitRepository.findPageBy(PageRequest.of(page, limit));
 
         return result;
     }

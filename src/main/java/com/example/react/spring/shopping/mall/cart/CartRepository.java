@@ -15,32 +15,24 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     // 로그인 한 고객의 장바구니에서 과일별로 분류한 값을 조회하는 쿼리
     @Query(value = """
-                    select
-                        a.fruit_id,
-                        b.cart_id,
-                        a.fruit_name,
-                        a.fruit_image,
-                        a.price,
-                        b.count,
-                        (a.price * b.count) as total_price
-                    from
-                        fruit a
-                    join
-                        (
-                            select
-                                b.fruit_id, sum(b.fruit_quantity) as count, (select cart_id from cart c where c.fruit_id = f.fruit_id) as cart_id
-                            from
-                                fruit f
-                            join
-                                cart b
-                                    on f.fruit_id = b.fruit_id
-                            where
-                                member_id = ?1
-                            group by
-                                fruit_id
-                        ) b
-                    on a.fruit_id = b.fruit_id
-            """, nativeQuery = true)
+            select
+                a.fruit_id,
+                a.fruit_name,
+                a.fruit_image,
+                a.price,
+                b.count,
+                (a.price * b.count) as total_price
+            from
+                fruit a
+            join
+            (
+                select fruit_id, sum(fruit_quantity) as count
+                from cart
+                where member_id = ?1
+                group by fruit_id
+            ) b
+            on a.fruit_id = b.fruit_id
+                """, nativeQuery = true)
     List<CartDTO> selectCartList(Integer memberId);
 
     @Modifying
@@ -54,6 +46,11 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
                 cart_id = ?1 and fruit_quantity != ?2
                         """, nativeQuery = true)
     Integer updateCartItem(Integer cartId, Integer count);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from cart where member_id = ?1", nativeQuery = true)
+    Integer deleteByMemberId(Integer memberId);
 
     @Modifying
     @Transactional

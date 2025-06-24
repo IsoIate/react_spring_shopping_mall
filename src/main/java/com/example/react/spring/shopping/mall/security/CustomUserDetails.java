@@ -29,6 +29,10 @@ public class CustomUserDetails implements UserDetails {
         return member.getMemberName();
     }
 
+    public String getMemberRole() {
+        return member.getMemberRole();
+    }
+
     @Override
     public String getUsername() {
         return member.getMemberId();

@@ -1,25 +1,24 @@
 package com.example.react.spring.shopping.mall.review;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.Id;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Review {
+@Setter
+@Getter
+@ToString
+public class ReviewDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer reviewId;
     private Integer memberId;
     private Integer fruitId;
     private String review;
-    @CreatedDate
-    private String reviewDate;
+    private String author;
 }

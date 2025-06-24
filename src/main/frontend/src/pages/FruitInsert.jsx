@@ -117,7 +117,7 @@ function FruitInsert() {
 
     return (
         <>
-            <Navbar></Navbar>   {/*관리자 nav로 변경 필요*/}
+            <Navbar></Navbar>
             <Container className="py-5" style={{ maxWidth: '600px' }}>
                 <h3 className="mb-4 text-center"> 상품 등록 </h3>
                 <Form onSubmit={handleSubmit}>
@@ -218,41 +218,6 @@ function FruitInsert() {
                 </Form>
             </Container>
         </>
-        //     <>
-        //     <div>
-        //         <form action="/fruitInsert" method="POST">
-        //             <div className="writeFormDiv">
-        //                 <div className="writeDiv">
-        //                     <h4> 과일 이름 </h4>
-        //                     <input type="text" name="fruitName" onChange={(e) => {setTitle(e.target.value)}}/>
-        //                 </div>
-        //                 <div className="writeDiv">
-        //                     <h4> 가격 </h4>
-        //                     <input type="text" name="price" value={price} onChange={(e) => {inputNumber(e, "price")}}/>
-        //                 </div>
-        //                 <div className="writeDiv">
-        //                     <h4> 과일 갯수 </h4>
-        //                     <input type="text" name="quantity" value={quantity} onChange={(e) => {inputNumber(e, "qy")}}/>
-        //                 </div>
-        //                 <input type="hidden" name="imageURL" id="imageURL"/>
-        //                 <div className="writeDiv">
-        //                     <h4> 과일 이미지 </h4>
-        //                     <input type="file" onChange={(e) => {
-        //                         getURL(e)
-        //                     }}/>
-        //                 </div>
-        //                 <div className="writeDiv">
-        //                     <h4> 과일 이미지 미리보기 </h4>
-        //                     <img style={{width: "60%"}}/>
-        //                 </div>
-        //                 <button type="button" onClick={() => {
-        //                     formSubmit();
-        //                 }}> 전송
-        //                 </button>
-        //             </div>
-        //         </form>
-        //     </div>
-        // </>
     )
 }
 

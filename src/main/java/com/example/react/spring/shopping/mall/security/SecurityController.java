@@ -47,9 +47,11 @@ public class SecurityController {
             CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
             Integer id = userDetails.getId();
             String memberName = userDetails.getMemberName();
+            String memberRole = userDetails.getMemberRole();
 
             result.put("id", Integer.toString(id));
             result.put("memberName", memberName);
+            result.put("memberRole", memberRole);
 
             return ResponseEntity.ok(result);
         } catch (BadCredentialsException e) {
