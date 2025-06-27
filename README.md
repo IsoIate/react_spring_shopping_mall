@@ -86,9 +86,6 @@ project/
 ## 5.2 Backend
 ```plaintext
 java/
-├── public/
-│   ├── index.html           # HTML 템플릿 파일
-│   └── favicon.ico          # 아이콘 파일
 ├── src/
 │   ├── cart/                # 카드 관련 비지니스 로직
 │   ├── config/              # 로그인, 시큐리티 관련 및 프록시 설정 파일
